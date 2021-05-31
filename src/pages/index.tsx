@@ -1,6 +1,27 @@
 import { Box, Divider, Flex, HStack, Image, Text, VStack } from "@chakra-ui/react";
 import Modalidade from "../components/Modalidade";
-import Carroussel from "../components/Carroussel";
+import Carroussel, { CarrousselItem } from "../components/Carroussel";
+
+const items: CarrousselItem[] = [
+    {
+        href: 'continents/europe',
+        continent: 'Europe',
+        description: 'Continente mais antigo do mundo',
+        bgImage: 'continents/europe.png'
+    },
+    {
+        href: 'continents/asia',
+        continent: 'Ásia',
+        description: 'Natureza e antigo se juntam',
+        bgImage: 'continents/asia.png'
+    },
+    {
+        href: 'continents/americasul',
+        continent: 'América do Sul',
+        description: 'Muita riqueza, histórica e povo alegre',
+        bgImage: 'continents/america_sul.png'
+    }
+]
 
 export default function Home() {
     return (
@@ -50,7 +71,7 @@ export default function Home() {
                 </VStack>
             </Flex>
 
-            <Carroussel />
+            <Carroussel items={ items } />
     </Box>
     )
 }
