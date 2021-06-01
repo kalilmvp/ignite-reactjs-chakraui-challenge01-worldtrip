@@ -1,8 +1,21 @@
 import { GetStaticPaths, GetStaticProps } from "next";
-import { Box, Flex, HStack, Image, SimpleGrid, Text, Icon, Tooltip, Heading, VStack } from "@chakra-ui/react";
+import {
+    Box,
+    Flex,
+    HStack,
+    Image,
+    SimpleGrid,
+    Text,
+    Icon,
+    Tooltip,
+    Heading,
+    VStack,
+    useBreakpointValue
+} from "@chakra-ui/react";
 import { FiInfo } from 'react-icons/fi';
 import Flag from 'react-flagkit';
 import Header from "../../components/Header";
+import Cities from "../../components/Cities";
 
 interface ContinentProps {
     name: string;
@@ -151,6 +164,12 @@ const continentData = {
 
 export default function Continents( { name } : ContinentProps) {
     const data = continentData[name];
+
+    const isWideVersion = useBreakpointValue({
+        base: false,
+        lg: true,
+    });
+
     return (
         <Box>
             <Header />
@@ -169,8 +188,8 @@ export default function Continents( { name } : ContinentProps) {
                     </Text>
             </Flex>
 
-            <Box w="100%" maxW={ 1240 } alignItems="center" mx="auto" px="16">
-                <Flex align="center" my="20">
+            <Box w="100%" maxW={ 1240 } alignItems="center" mx="auto" px={["6", "16"]}>
+                <Flex align="center" my="20" direction={isWideVersion ? "row" : 'column'}>
                     <Box maxWidth="600">
                         <Text
                             fontSize="18"
@@ -181,74 +200,55 @@ export default function Continents( { name } : ContinentProps) {
                             { data.description }
                         </Text>
                     </Box>
-                    <HStack>
-                        <SimpleGrid ml="20" columns={ 3 } gap="2" w="100%">
-                            <Flex direction="column" align="center">
+                    <HStack mt="4">
+                        <SimpleGrid mx={["0", "20"]} columns={ 3 } spacing={["18", "4"]} w="100%">
+                            <Flex direction="column" align={[ "flex-start", "center"]}>
                                 <Text color="#FFBA08" fontSize="35" fontWeight="bold">{ data.qtdPaises }</Text>
                                 <Text fontSize="18"
                                       color="gray.500"
                                       fontWeight="normal">países</Text>
                             </Flex>
-                            <Flex direction="column" align="center">
+                            <Flex direction="column" align={ [ "flex-start", "center" ] }>
                                 <Text color="#FFBA08" fontSize="35" fontWeight="bold">{ data.qtdLinguas }</Text>
                                 <Text fontSize="18"
                                       color="gray.500"
                                       fontWeight="medium">línguas</Text>
                             </Flex>
-                            <Flex direction="column" align="center">
+                            <Flex direction="column" align={ [ "flex-start", "center" ] } w="36">
                                 <Text color="#FFBA08" fontSize="35" fontWeight="bold">{ data.qtdCidadesMais }</Text>
                                 <HStack>
-                                    <Text as="span"
-                                          fontSize="18"
+                                    <Text fontSize="18"
                                           color="gray.500"
-                                          fontWeight="medium">cidade +100
+                                          fontWeight="medium">cidades +100
                                     </Text>
-                                    <Tooltip label="Muuitos continentes" aria-label="Muuitos continentes" bg="gray.600"
-                                             placement="top-start">
-                                        <Text as="span">
-                                            <Icon as={ FiInfo } color="gray.400" fontSize="14"/>
-                                        </Text>
-                                    </Tooltip>
+                                    {isWideVersion && (
+                                        <Tooltip label="Muuitos continentes" aria-label="Muuitos continentes"
+                                                 bg="gray.600"
+                                                 placement="top-start">
+                                            <Text as="span">
+                                                <Icon as={ FiInfo } color="gray.400" fontSize="14"/>
+                                            </Text>
+                                        </Tooltip>
+                                    )}
                                 </HStack>
                             </Flex>
                         </SimpleGrid>
                     </HStack>
                 </Flex>
-                <Flex align="center" my="20">
-                        <Flex direction="column">
-                            <Heading size="lg" color="gray.500" fontWeight="medium">Cidades +100</Heading>
 
-                            <SimpleGrid mt="10" columns={ 4 } gap="10" w="100%">
-                                { data.cities.map(city => (
-                                    <Box key={ city.name } maxW="sm" borderColor="#FFBA08" borderWidth="1px" overflow="hidden">
-                                        <Image width="100%" height="200" src={ city.image } alt={ city.name }/>
+                <Heading size="lg" color="gray.500" fontWeight="medium">Cidades +100</Heading>
 
-                                        <Box p="6">
-                                            <HStack display="flex" justify="space-between">
-                                                <VStack display="flex" align="flex-start">
-                                                    <Text fontSize="15"
-                                                          color="gray.500"
-                                                          fontWeight="medium">{ city.name }</Text>
-                                                    <Text fontSize="13"
-                                                          color="gray.400"
-                                                          fontWeight="medium">{ city.country }</Text>
-                                                </VStack>
-                                                <Text as="span">
-                                                    <Flag
-                                                        size={ 34 }
-                                                        style={ {
-                                                            borderRadius: '10px'
-                                                        } }
-                                                        country={ city.flag }
-                                                    />
-                                                </Text>
-                                            </HStack>
-                                        </Box>
-                                    </Box>
-                                )) }
-                            </SimpleGrid>
+                <Flex align="center" my="4" direction="column">
+                    {isWideVersion ? (
+                        <SimpleGrid mt="10" columns={ 4 } gap="10" w="100%">
+                            <Cities cities={data.cities} />
+                        </SimpleGrid>
+                    ) : (
+                        <Flex direction="column" mt="4" align="center" justify="center">
+                            <Cities cities={ data.cities }/>
                         </Flex>
-                    </Flex>
+                    )}
+                </Flex>
             </Box>
         </Box>
     )
