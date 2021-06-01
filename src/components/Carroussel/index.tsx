@@ -20,7 +20,7 @@ export default function Carroussel( {items} : CarrousselProps) {
     return (
         <Flex
             w='100%' // deixei a flex ocupando toda largura,
-            maxW='1240px' // porém não mais largo que 1240px
+            maxW={ 1240 } // porém não mais largo que 1240px
             mx='auto'
             mb={ [ '5', '10' ] }
             h={ [ '250px', '450px' ] }
@@ -34,7 +34,7 @@ export default function Carroussel( {items} : CarrousselProps) {
                 style={ { width: '100%', flex: '1' } }
             >
                 { items.map(item => (
-                    <SwiperSlide>
+                    <SwiperSlide key={item.continent}>
                         <Link href={item.href}>
                             <Flex
                                 bgSize='cover'

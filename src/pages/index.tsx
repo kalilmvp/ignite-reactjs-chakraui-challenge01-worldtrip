@@ -1,6 +1,7 @@
 import { Box, Divider, Flex, HStack, Image, Text, VStack } from "@chakra-ui/react";
 import Modalidade from "../components/Modalidade";
 import Carroussel, { CarrousselItem } from "../components/Carroussel";
+import Header from "../components/Header";
 
 const items: CarrousselItem[] = [
     {
@@ -26,19 +27,11 @@ const items: CarrousselItem[] = [
 export default function Home() {
     return (
         <Box>
-            <Flex
-                as="header"
-                align="center"
-                justify="center"
-                w="100%"
-                h="120"
-            >
-                <Image objectFit="cover" src="logo.png" alt="Logo" />
-            </Flex>
-            <Flex w='100vw' h={ 368 }>
-                <Image src='banner.png' w='100%' objectFit="fill"/>
-            </Flex>
+            <Header/>
 
+            <Flex w='100vw'>
+                <Image src='banner.png' mx="auto" w='100%' maxW={1240} />
+            </Flex>
 
             <Flex w="100vw" mt="20">
                 <HStack mx="auto">
